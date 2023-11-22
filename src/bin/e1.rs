@@ -79,8 +79,5 @@ fn main() {
         Operations::Divide => divide(a, b),
     };
 
-    println!(
-        "The result of {:?} a: {a}, b: {b} is {result}",
-        my_operation
-    );
+    println!("The result of {a} {:?} {b} is {result}", my_operation);
 }
