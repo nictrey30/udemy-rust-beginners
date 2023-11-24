@@ -84,22 +84,16 @@ fn calculate_total_flips(vector: &Vec<Coin>) -> HashMap<String, u32> {
 // return a hashmap calculating the probabilities that takes the no_flips for heads/tails
 fn calculate_probability(flips: &HashMap<String, u32>, no_flips: u32) -> HashMap<String, f64> {
     let mut flips_probabilities: HashMap<String, f64> = HashMap::new();
-    for (key, _value) in flips {
-        if key == "heads" {
-            let heads_probability = flips_probabilities
-                .entry("heads_probability".to_owned())
-                .or_insert(0.0);
-            *heads_probability =
-                (flips.get("heads").copied().unwrap_or(0) as f64 / no_flips as f64) * 100.00;
-        }
-        if key == "tails" {
-            let tails_probability = flips_probabilities
-                .entry("tails_probability".to_owned())
-                .or_insert(0.0);
-            *tails_probability =
-                (flips.get("tails").copied().unwrap_or(0) as f64 / no_flips as f64) * 100.00;
-        }
-    }
+    let heads_probability = flips_probabilities
+        .entry("heads_probability".to_owned())
+        .or_insert(0.0);
+    *heads_probability =
+        (flips.get("heads").copied().unwrap_or(0) as f64 / no_flips as f64) * 100.00;
+    let tails_probability = flips_probabilities
+        .entry("tails_probability".to_owned())
+        .or_insert(0.0);
+    *tails_probability =
+        (flips.get("tails").copied().unwrap_or(0) as f64 / no_flips as f64) * 100.00;
     flips_probabilities
 }
 
