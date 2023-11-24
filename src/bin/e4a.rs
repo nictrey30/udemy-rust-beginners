@@ -98,7 +98,7 @@ fn calculate_probability(flips: &HashMap<String, u32>, no_flips: u32) -> HashMap
 }
 
 fn main() {
-    // chose a no_flips between 0 and 100
+    // choose a no_flips between 0 and 100
     let no_flips: u32 = num_of_flips();
     // return a vector containing the no_flips flips
     let vector_of_flips = coin_flips_vector(no_flips);
