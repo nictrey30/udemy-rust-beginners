@@ -61,8 +61,8 @@ struct Box {
 }
 
 impl Box {
-    fn create_box(dimensions: Dimensions, color: Colors, weight: f64) -> Box {
-        Box {
+    fn create_box(dimensions: Dimensions, color: Colors, weight: f64) -> Self {
+        Self {
             dimensions,
             color,
             weight,
