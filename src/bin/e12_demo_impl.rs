@@ -7,7 +7,10 @@ struct Temperature {
 
 impl Temperature {
     fn freezing() -> Self {
-        Self { degrees_c: 0.00 }
+        Self { degrees_c: 0.0 }
+    }
+    fn boling() -> Self {
+        Self { degrees_c: 100.0 }
     }
     fn show_temp(&self) {
         println!("{:?} degrees C", self.degrees_c);
@@ -40,4 +43,6 @@ fn main() {
     hot.show_temp();
     let cold = Temperature::freezing();
     cold.show_temp();
+    let boiling = Temperature::boling();
+    boiling.show_temp();
 }
