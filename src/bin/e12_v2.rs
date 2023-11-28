@@ -39,8 +39,8 @@ struct Dimensions {
 }
 
 impl Dimensions {
-    fn return_dimension(width: f64, length: f64, height: f64) -> Dimensions {
-        Dimensions {
+    fn return_dimension(width: f64, length: f64, height: f64) -> Self {
+        Self {
             width,
             length,
             height,
