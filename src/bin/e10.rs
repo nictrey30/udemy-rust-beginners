@@ -36,12 +36,8 @@ fn get_integer_value() -> i32 {
 fn display_message(num: i32) {
     let comparison = num <= 100;
     match comparison {
-        true => {
-            println!("it's small");
-        }
-        false => {
-            println!("it's big");
-        }
+        true => println!("it's small"),
+        false => println!("it's big"),
     }
 }
 
