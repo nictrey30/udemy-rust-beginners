@@ -9,6 +9,7 @@
 // * Use an enum for the box color
 // * Implement functionality on the box struct to create a new box
 // * Implement functionality on the box struct to print the characteristics
+#![allow(dead_code, unused_variables, unused_imports)]
 #[allow(dead_code, unused)]
 use std::{fmt, io};
 // import the macros needed

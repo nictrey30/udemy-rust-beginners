@@ -1,3 +1,4 @@
+
 // Topic: Organizing similar data using structs
 //
 // Requirements:
@@ -8,6 +9,9 @@
 // * Use a struct to store drink flavor and fluid ounce information
 // * Use a function to print out the drink flavor and ounces
 // * Use a match expression to print the drink flavor
+
+#![allow(dead_code, unused_variables, unused_imports)]
+
 use std::cmp::Ordering;
 use std::io;
 // import the macros needed
