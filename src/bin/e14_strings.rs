@@ -10,15 +10,9 @@
 // * Iterate through the vector using a for..in loop
 // * Use an if expression to determine which person's info should be printed
 // * The name and colors should be printed using a function
-
 use std::io;
-// import the macros needed
-use strum_macros::{EnumString, EnumVariantNames};
-// You need to import the trait, to have access to VARIANTS
-use strum::VariantNames;
 
-#[derive(Debug, EnumString, EnumVariantNames)]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug)]
 enum Colors {
     Black,
     Blue,
@@ -28,6 +22,21 @@ enum Colors {
     Magenta,
     Yellow,
     White,
+}
+
+impl Colors {
+    fn color_string(&self) -> String {
+        match &self {
+            Colors::Black => return "black".to_string(),
+            Colors::Blue => return "blue".to_string(),
+            Colors::Green => return "green".to_string(),
+            Colors::Red => return "red".to_string(),
+            Colors::Cyan => return "cyan".to_string(),
+            Colors::Magenta => return "magenta".to_string(),
+            Colors::Yellow => return "yellow".to_string(),
+            Colors::White => return "white".to_string(),
+        }
+    }
 }
 
 struct Person {
@@ -83,8 +92,17 @@ impl Person {
     }
 
     fn display_available_colors() {
-        for i in Colors::VARIANTS {
-            println!("{}", i.to_lowercase());
+        for i in [
+            Colors::Black,
+            Colors::Blue,
+            Colors::Green,
+            Colors::Red,
+            Colors::Cyan,
+            Colors::Magenta,
+            Colors::White,
+            Colors::Yellow,
+        ] {
+            println!("{}", i.color_string());
         }
         println!("_________________________");
     }
@@ -123,15 +141,46 @@ impl Person {
         }
     }
 
-    fn display_person(&self) {
-        println!(
-            "name: {}, age: {}, fav_color: {:?}",
-            self.name, self.age, self.fav_color
-        );
+    fn display_person(&self, info: &str) {
+        match info {
+            "name" => {
+                println!("name: {}", self.name);
+            }
+            "age" => {
+                println!("age: {}", self.age);
+            }
+            "color" => {
+                println!("{:?}", self.fav_color);
+            }
+            _ => {
+                println!("error");
+            }
+        }
+    }
+}
+
+fn display_option() -> String {
+    let mut value = String::new();
+    loop {
+        value.clear();
+        println!("choose field: name/ age/ color:");
+        io::stdin()
+            .read_line(&mut value)
+            .expect("failed to read line");
+        match value.to_lowercase().trim() {
+            "name" => return "name".to_owned(),
+            "age" => return "age".to_owned(),
+            "color" => return "color".to_owned(),
+            _ => {
+                println!("Only -> name/ age/ color <- allowed.");
+                continue;
+            }
+        };
     }
 }
 
 fn main() {
     let person = Person::create_person();
-    person.display_person();
+    let display_option = display_option();
+    Person::display_person(&person, &display_option[..]);
 }
