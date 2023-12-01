@@ -10,6 +10,8 @@
 // * Iterate through the vector using a for..in loop
 // * Use an if expression to determine which person's info should be printed
 // * The name and colors should be printed using a function
+#![allow(dead_code, unused_variables, unused_imports)]
+
 use std::io;
 
 #[derive(Debug)]
@@ -62,35 +64,6 @@ impl Person {
         }
     }
 
-    fn get_age() -> u32 {
-        let mut value = String::new();
-        println!("input an age between 1 and 100: ");
-        loop {
-            value.clear();
-            io::stdin()
-                .read_line(&mut value)
-                .expect("failed to read line.");
-            let value: u32 = match value.trim().parse() {
-                Ok(num) => {
-                    if num == 0 {
-                        println!("0 not allowed");
-                        continue;
-                    } else if num > 100 {
-                        println!("no more than 10");
-                        continue;
-                    } else {
-                        num
-                    }
-                }
-                Err(_) => {
-                    println!("only numbers between 1..100 allowed.");
-                    continue;
-                }
-            };
-            return value;
-        }
-    }
-
     fn display_available_colors() {
         for i in [
             Colors::Black,
@@ -133,10 +106,16 @@ impl Person {
         }
     }
 
+    fn fav_color_under_10(&self) {
+        if self.age < 10 {
+            println!("name: {:?} -> fav_color: {:?}", self.name, self.fav_color);
+        }
+    }
+
     fn create_person() -> Self {
         Self {
             name: Self::get_name(),
-            age: Self::get_age(),
+            age: get_integer(100),
             fav_color: Self::get_color(),
         }
     }
@@ -156,6 +135,35 @@ impl Person {
                 println!("error");
             }
         }
+    }
+}
+
+fn get_integer(number: u32) -> u32 {
+    let mut value = String::new();
+    println!("input an number between 1 and {number}: ");
+    loop {
+        value.clear();
+        io::stdin()
+            .read_line(&mut value)
+            .expect("failed to read line.");
+        let value: u32 = match value.trim().parse() {
+            Ok(num) => {
+                if num == 0 {
+                    println!("0 not allowed");
+                    continue;
+                } else if num > number {
+                    println!("no more than {num}");
+                    continue;
+                } else {
+                    num
+                }
+            }
+            Err(_) => {
+                println!("only numbers between 1..{number} allowed.");
+                continue;
+            }
+        };
+        return value;
     }
 }
 
@@ -180,7 +188,23 @@ fn display_option() -> String {
 }
 
 fn main() {
-    let person = Person::create_person();
-    let display_option = display_option();
-    Person::display_person(&person, &display_option[..]);
+    // let person = Person::create_person();
+    // let display_option = display_option();
+    // Person::display_person(&person, &display_option[..]);
+    println!("How many people do you want to add? (max 5):");
+    let no_people = get_integer(5);
+
+    // * Create and store at least 3 people in a vector
+    let mut vec_people: Vec<Person> = Vec::new();
+    for i in 0..no_people {
+        println!("Person no. {}:", i + 1);
+        vec_people.push(Person::create_person());
+    }
+    // * Print out the name and favorite colors of people aged 10 and under
+    println!("name and favorite colors of people aged 10 and under:");
+    for i in &vec_people {
+        if i.age < 10 {
+            i.fav_color_under_10();
+        }
+    }
 }
