@@ -120,7 +120,7 @@ impl Person {
         }
     }
 
-    fn display_person(&self, info: &str) {
+    fn display_field(&self, info: &str) {
         match info {
             "name" => {
                 println!("name: {}", self.name);
@@ -190,7 +190,7 @@ fn display_option() -> String {
 fn main() {
     // let person = Person::create_person();
     // let display_option = display_option();
-    // Person::display_person(&person, &display_option[..]);
+    // Person::display_field(&person, &display_option[..]);
     println!("How many people do you want to add? (max 5):");
     let no_people = get_integer(5);
 
