@@ -37,15 +37,20 @@ impl TicketType {
     }
 
     fn get_type() -> Self {
-        let mut input_ticket_type: String = Self::get_name();
+        let name = Self::get_name();
+        let mut value = String::new();
         loop {
-            match input_ticket_type.trim() {
-                "backstage" => return Self::Backstage(Self::get_name()),
-                "vip" => return Self::Vip(Self::get_name()),
+            value.clear();
+            println!("ticket type: ");
+            io::stdin()
+                .read_line(&mut value)
+                .expect("failed to read line");
+            match value.to_lowercase().trim() {
+                "backstage" => return Self::Backstage(name),
+                "vip" => return Self::Vip(name),
                 "standard" => return Self::Standard,
                 _ => {
                     println!("only backstage/vip/standard inputs allowed");
-                    input_ticket_type.clear();
                     continue;
                 }
             };
@@ -53,14 +58,45 @@ impl TicketType {
     }
 }
 
+#[derive(Debug)]
 struct Tickets {
     ticket_type: TicketType,
     price: f64,
 }
 
 impl Tickets {
-    fn create_ticker(ticket_type: TicketType) -> Self {
-        let price
+    fn create_ticket(ticket_type: TicketType) -> Self {
+        let price = get_ticket_price();
+        Self { ticket_type, price }
+    }
+}
+
+fn get_ticket_price() -> f64 {
+    let mut value = String::new();
+    println!("input an number between 1 and 100: ");
+    loop {
+        value.clear();
+        io::stdin()
+            .read_line(&mut value)
+            .expect("failed to read line.");
+        let value: f64 = match value.trim().parse() {
+            Ok(num) => {
+                if num == 0.0 {
+                    println!("0 not allowed");
+                    continue;
+                } else if num > 100.0 {
+                    println!("ticket cannot be more expensive than 100");
+                    continue;
+                } else {
+                    num
+                }
+            }
+            Err(_) => {
+                println!("only numbers between 1..100 allowed.");
+                continue;
+            }
+        };
+        return f64::from(value);
     }
 }
 
@@ -93,13 +129,20 @@ fn get_num() -> u32 {
     }
 }
 
-// fn tickets_list(num: u32) -> Vec<Tickets> {
-//     let mut tickets: Vec<Tickets> = Vec::new();
-//     for i in 0..num {
-//         tickets.push()
-//     }
-// }
+fn tickets_list(num: u32) -> Vec<Tickets> {
+    let mut tickets: Vec<Tickets> = Vec::new();
+    for _i in 0..num {
+        tickets.push(Tickets::create_ticket(TicketType::get_type()));
+    }
+    tickets
+}
 
 fn main() {
+    println!("Input no of tickets:");
     let no_tickets = get_num();
+    let my_tickets: Vec<Tickets> = tickets_list(no_tickets);
+    for i in &my_tickets {
+        println!("{:?}", i);
+    }
+    // display how many tickets of each type in procentages are
 }
