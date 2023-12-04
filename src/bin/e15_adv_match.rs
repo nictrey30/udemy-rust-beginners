@@ -12,7 +12,7 @@
 // * Use a match expression while iterating the vector to print the ticket info
 use std::io;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum TicketType {
     Backstage(String),
     Vip(String),
@@ -24,7 +24,7 @@ impl TicketType {
         let mut value = String::new();
         loop {
             value.clear();
-            println!("name: ");
+            println!("name on ticket: ");
             io::stdin()
                 .read_line(&mut value)
                 .expect("failed to read line");
@@ -137,12 +137,34 @@ fn tickets_list(num: u32) -> Vec<Tickets> {
     tickets
 }
 
+fn ticket_probabilities(vector: &Vec<Tickets>) {
+    let mut standard = 0;
+    let mut backstage = 0;
+    let mut vip = 0;
+    for i in vector {
+        println!("{:?}", i);
+        match i.ticket_type.clone() {
+            TicketType::Vip(_name) => {
+                vip += 1;
+            }
+            TicketType::Backstage(_name) => {
+                backstage += 1;
+            }
+            TicketType::Standard => {
+                standard += 1;
+            }
+        };
+    }
+    println!(
+        "standard: {} tickets, backstage: {} tickets, vip: {} tickets",
+        standard, backstage, vip
+    );
+}
+
 fn main() {
     println!("Input no of tickets:");
     let no_tickets = get_num();
     let my_tickets: Vec<Tickets> = tickets_list(no_tickets);
-    for i in &my_tickets {
-        println!("{:?}", i);
-    }
     // display how many tickets of each type in procentages are
+    ticket_probabilities(&my_tickets);
 }
