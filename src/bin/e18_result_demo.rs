@@ -35,11 +35,16 @@ fn get_input() -> String {
         }
     }
 }
-fn main() {
-    let input = get_input();
-    let my_choice: Result<MenuChoice, String> = get_choice(&input);
-    match my_choice {
+
+fn print_choice(choice: &Result<MenuChoice, String>) {
+    match choice {
         Ok(choice) => println!("Your choice was: {:?}", choice),
         Err(string) => println!("Your choice was incorrect: {:?}", string),
     }
+}
+
+fn main() {
+    let input = get_input();
+    let choice = get_choice(&input);
+    print_choice(&choice);
 }
