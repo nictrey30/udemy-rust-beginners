@@ -14,7 +14,7 @@ fn get_choice(choice: &str) -> Result<MenuChoice, String> {
         "mainmenu" => return Ok(MenuChoice::MainMenu),
         "start" => return Ok(MenuChoice::Start),
         "quit" => return Ok(MenuChoice::Quit),
-        user_choice => return Err(user_choice.to_owned()),
+        _ => return Err("menu choice not found".to_owned()),
     }
 }
 
