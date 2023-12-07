@@ -51,5 +51,7 @@ fn pick_choice(input: &str) -> Result<(), String> {
 
 fn main() {
     let input = get_input();
-    pick_choice(&input).expect("non-existent choice");
+    // the choice will always gonna be a Result, because pick_choice always returns a Result
+    let choice = pick_choice(&input);
+    println!("choice value = {:?}", choice);
 }
