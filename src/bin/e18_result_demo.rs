@@ -43,7 +43,7 @@ fn print_choice(choice: &MenuChoice) {
 fn pick_choice(input: &str) -> Result<(), String> {
     // by using ?, get_choice instead of returning a Result, will automatically perform a match operation
     // if the Result is an Ok variant, then the inner data of Ok will be returned
-    // if it is the Err variant the function will returl a Result Err variant, otherwise we get the inner data
+    // if it is the Err variant the function will returl a Result Err variant aka String in our case, otherwise we get the inner data
     let choice: MenuChoice = get_choice(input)?;
     print_choice(&choice);
     Ok(())
