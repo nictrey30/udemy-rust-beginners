@@ -53,5 +53,7 @@ fn main() {
     let input = get_input();
     // the choice will always gonna be a Result, because pick_choice always returns a Result
     let choice = pick_choice(&input);
+    // in case of choice being an Err => choice value = Err("menu choice not found")
+    // in case of Ok => choice value = Ok(())
     println!("choice value = {:?}", choice);
 }
