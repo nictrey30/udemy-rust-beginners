@@ -36,13 +36,6 @@ impl Customer {
     }
 }
 
-fn age_verify(customer: &Customer) -> Result<(), String> {
-    match customer.age < 21 {
-        true => return Err("cannot make a purchase".to_owned()),
-        false => return Ok(()),
-    }
-}
-
 fn get_name() -> Option<String> {
     let mut input = String::new();
     println!("customer's name(can be blank): ");
@@ -80,6 +73,13 @@ fn get_age() -> u32 {
                 continue;
             }
         };
+    }
+}
+
+fn age_verify(customer: &Customer) -> Result<(), String> {
+    match customer.age < 21 {
+        true => return Err("cannot make a purchase".to_owned()),
+        false => return Ok(()),
     }
 }
 
