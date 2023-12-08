@@ -61,7 +61,7 @@ impl Employee {
         }
     }
 
-    fn get_acces_type(access: &str) -> Result<Access, String> {
+    fn get_access_type(access: &str) -> Result<Access, String> {
         match access.to_lowercase().trim() {
             "mang" => return Ok(Access::Manager(true)),
             "markt" => return Ok(Access::Marketing(true)),
@@ -83,7 +83,7 @@ impl Employee {
         io::stdin()
             .read_line(&mut input)
             .expect("failed to read line.");
-        let empl_type: Access = Self::get_acces_type(&input)?;
+        let empl_type: Access = Self::get_access_type(&input)?;
         return Ok(empl_type);
     }
 
