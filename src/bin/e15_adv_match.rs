@@ -10,6 +10,7 @@
 // * Use an enum for the tickets with data associated with each variant
 // * Create one of each ticket and place into a vector
 // * Use a match expression while iterating the vector to print the ticket info
+#![allow(dead_code, unused_variables, unused_imports)]
 use std::io;
 
 #[derive(Debug, Clone)]
