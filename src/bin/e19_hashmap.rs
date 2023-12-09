@@ -61,24 +61,20 @@ fn get_furniture_type() -> Result<String, String> {
 }
 
 fn print_hashmap(hashmap: &HashMap<String, u32>) {
-    if hashmap.is_empty() {
-        println!("no stock in store!");
-    } else {
-        for (k, v) in hashmap {
-            let stock_count: String = if *v == 0 {
-                "out of stock".to_owned()
-            } else {
-                format!("{:?}", v)
-            };
-            println!(
-                "{:?}: {}",
-                k,
-                match stock_count.parse() {
-                    Ok(num) => num,
-                    _ => "out of stock".to_owned(),
-                }
-            );
-        }
+    for (k, v) in hashmap {
+        let stock_count: String = if *v == 0 {
+            "out of stock".to_owned()
+        } else {
+            format!("{:?}", v)
+        };
+        println!(
+            "{:?}: {}",
+            k,
+            match stock_count.parse() {
+                Ok(num) => num,
+                _ => "out of stock".to_owned(),
+            }
+        );
     }
 }
 
