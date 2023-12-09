@@ -65,7 +65,19 @@ fn print_hashmap(hashmap: &HashMap<String, u32>) {
         println!("no stock in store!");
     } else {
         for (k, v) in hashmap {
-            println!("{:?} {:?}", k, v);
+            let stock_count: String = if *v == 0 {
+                "out of stock".to_owned()
+            } else {
+                format!("{:?}", v)
+            };
+            println!(
+                "{:?}: {}",
+                k,
+                match stock_count.parse() {
+                    Ok(num) => num,
+                    _ => "out of stock".to_owned(),
+                }
+            );
         }
     }
 }
