@@ -1,6 +1,5 @@
 // Topic: HashMap
 // * Print the name and number of items in stock for a furniture store
-// * If the number of items is 0, print "out of stock" instead of 0
 // * Print the total number of items in stock
 // * Use a HashMap for the furniture store stock
 
