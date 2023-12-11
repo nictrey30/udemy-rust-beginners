@@ -27,6 +27,8 @@ enum States {
     Hibernate,
 }
 
+use States::*;
+
 fn get_user_input() -> io::Result<String> {
     let mut buffer: String = String::new();
     io::stdin().read_line(&mut buffer)?;
@@ -35,11 +37,11 @@ fn get_user_input() -> io::Result<String> {
 
 fn validate_input(input: &str) -> Result<States, String> {
     match input {
-        "off" => return Ok(States::Off),
-        "sleep" => return Ok(States::Sleep),
-        "hibernate" => return Ok(States::Hibernate),
-        "shutdown" => return Ok(States::Shutdown),
-        "reboot" => return Ok(States::Reboot),
+        "off" => return Ok(Off),
+        "sleep" => return Ok(Sleep),
+        "hibernate" => return Ok(Hibernate),
+        "shutdown" => return Ok(Shutdown),
+        "reboot" => return Ok(Reboot),
         "" => Err("empty input".to_owned()),
         _ => Err("input does not exist.".to_owned()),
     }
@@ -66,11 +68,11 @@ fn return_state() -> States {
 
 fn print_state(state: &States) {
     match state {
-        States::Off => println!("PC is off..."),
-        States::Reboot => println!("rebooting..."),
-        States::Hibernate => println!("hibernating..."),
-        States::Sleep => println!("sleeping mode..."),
-        States::Shutdown => println!("shutting down..."),
+        Off => println!("PC is off..."),
+        Reboot => println!("rebooting..."),
+        Hibernate => println!("hibernating..."),
+        Sleep => println!("sleeping mode..."),
+        Shutdown => println!("shutting down..."),
     }
 }
 
