@@ -32,7 +32,8 @@ use States::*;
 fn get_user_input() -> io::Result<String> {
     let mut buffer: String = String::new();
     io::stdin().read_line(&mut buffer)?;
-    return Ok(buffer.trim().to_lowercase().to_owned());
+    // .trim() -> &str, to_lowercase -> String
+    return Ok(buffer.trim().to_lowercase());
 }
 
 fn validate_input(input: &str) -> Result<States, String> {
