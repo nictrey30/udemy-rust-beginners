@@ -41,7 +41,7 @@ fn validate_input(input: &str) -> Result<States, String> {
         "shutdown" => return Ok(States::Shutdown),
         "reboot" => return Ok(States::Reboot),
         "" => Err("empty input".to_owned()),
-        _ => Err("input not valid.".to_owned()),
+        _ => Err("input does not exist.".to_owned()),
     }
 }
 
@@ -65,7 +65,13 @@ fn return_state() -> States {
 }
 
 fn print_state(state: &States) {
-    println!("user choice: {:?}", state);
+    match state {
+        States::Off => println!("PC is off..."),
+        States::Reboot => println!("rebooting..."),
+        States::Hibernate => println!("hibernating..."),
+        States::Sleep => println!("sleeping mode..."),
+        States::Shutdown => println!("shutting down..."),
+    }
 }
 
 fn main() {
