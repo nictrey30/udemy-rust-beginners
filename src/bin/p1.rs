@@ -13,7 +13,7 @@
 // * Create your program starting at level 1. Once finished, advance to the next level.
 
 use rand::Rng;
-use std::{clone, collections::HashMap, io};
+use std::{collections::HashMap, io};
 
 #[derive(Debug)]
 struct Bill {
@@ -59,11 +59,23 @@ impl Bill {
         }
     }
 
-    fn create_bill() -> Self {
-        Self {
-            name: Self::get_name(),
-            amount: Self::get_amount(),
+    fn create_bill(name: Option<String>, amount: f64) -> Self {
+        Self { name, amount }
+    }
+
+    fn update_bill_amount(&mut self, new_amount: f64) {
+        self.amount = new_amount;
+    }
+
+    fn update_bill_name(&mut self, name: Option<String>) {
+        match name {
+            Some(inner_name) => self.name = Some(inner_name),
+            None => (),
         }
+    }
+
+    fn return_current_amount(&self) -> f64 {
+        self.amount
     }
 }
 
@@ -135,10 +147,6 @@ fn delete_bills(hashmap: &mut HashMap<u32, Bill>) {
         let mut current_total_elements = hashmap.len();
         print_hashmap(hashmap);
         println!("{} elements remaining", current_total_elements);
-        let mut possible_ids: Vec<u32> = Vec::new();
-        for key in hashmap.keys() {
-            possible_ids.push(*key);
-        }
         while current_total_elements > 0 && delete_option == true {
             'outer: loop {
                 let delete_id = get_id();
@@ -169,7 +177,9 @@ fn main() {
     let mut bills: HashMap<u32, Bill> = HashMap::new();
     let mut start = continue_input("generate bill");
     while start {
-        bills.insert(generate_id(), Bill::create_bill());
+        let name: Option<String> = Bill::get_name();
+        let amount = Bill::get_amount();
+        bills.insert(generate_id(), Bill::create_bill(name, amount));
         start = continue_input("generate bill");
     }
     println!("current bills: ");
