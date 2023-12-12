@@ -68,7 +68,7 @@ impl Bill {
 }
 
 fn generate_id() -> u32 {
-    rand::thread_rng().gen_range(1..10000)
+    rand::thread_rng().gen_range(1..1000)
 }
 
 fn get_id() -> u32 {
