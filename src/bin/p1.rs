@@ -13,7 +13,7 @@
 // * Create your program starting at level 1. Once finished, advance to the next level.
 
 use rand::Rng;
-use std::{collections::HashMap, io};
+use std::{clone, collections::HashMap, io};
 
 #[derive(Debug)]
 struct Bill {
@@ -67,12 +67,31 @@ impl Bill {
     }
 }
 
-fn generate_id() -> String {
-    rand::thread_rng().gen_range(1..10000).to_string()
+fn generate_id() -> u32 {
+    rand::thread_rng().gen_range(1..10000)
+}
+
+fn get_id() -> u32 {
+    loop {
+        match get_input(Some("id")) {
+            Ok(inner_string) => match inner_string.parse() {
+                Ok(inner_num) => return inner_num,
+                Err(_) => {
+                    println!("only u32 numbers allowed");
+                    continue;
+                }
+            },
+            Err(e) => {
+                println!("error: {:?}", e);
+                continue;
+            }
+        }
+    }
 }
 
 fn get_input(input: Option<&str>) -> io::Result<String> {
     match input {
+        // buf = name/amount to print bill name/ bill amount, None to just get the input without printing something first
         Some(buf) => println!("bill {}", buf),
         None => (),
     }
@@ -81,11 +100,11 @@ fn get_input(input: Option<&str>) -> io::Result<String> {
     Ok(buffer.trim().to_lowercase())
 }
 
-fn continue_input() -> bool {
+fn continue_input(option: &str) -> bool {
     let mut answer = String::new();
     loop {
         answer.clear();
-        println!("Generate bill? y/n");
+        println!("{} y/n", option);
         let answer = match get_input(None) {
             Ok(string) => string,
             Err(e) => {
@@ -104,11 +123,53 @@ fn continue_input() -> bool {
     }
 }
 
+fn print_hashmap(hashmap: &HashMap<u32, Bill>) {
+    for (key, value) in hashmap.iter() {
+        println!("id: {} -> value: {:?}", key, value);
+    }
+}
+
+fn delete_bills(hashmap: &mut HashMap<u32, Bill>) {
+    if hashmap.len() > 0 {
+        let mut delete_option = continue_input("delete item");
+        let mut current_total_elements = hashmap.len();
+        println!("{} elements remaining", current_total_elements);
+        print_hashmap(hashmap);
+        let mut possible_ids: Vec<u32> = Vec::new();
+        for key in hashmap.keys() {
+            possible_ids.push(*key);
+        }
+        while current_total_elements > 0 && delete_option == true {
+            'outer: loop {
+                let delete_id = get_id();
+                for key in hashmap.keys() {
+                    if key == &delete_id {
+                        hashmap.remove(&delete_id);
+                        break 'outer;
+                    }
+                }
+                println!("id not valid.please input ids only from the bills list.");
+            }
+            println!("updated bills: {:?}", print_hashmap(hashmap));
+            current_total_elements = hashmap.len();
+            if current_total_elements > 0 {
+                delete_option = continue_input("delete item");
+            } else {
+                println!("bill list empty!");
+                return ();
+            }
+        }
+    }
+}
+
 fn main() {
-    let mut bills: HashMap<String, Bill> = HashMap::new();
-    let mut start = continue_input();
+    let mut bills: HashMap<u32, Bill> = HashMap::new();
+    let mut start = continue_input("generate bill");
     while start {
         bills.insert(generate_id(), Bill::create_bill());
-        start = continue_input();
+        start = continue_input("generate bill");
     }
+    println!("current bills: ");
+    print_hashmap(&bills);
+    delete_bills(&mut bills);
 }
