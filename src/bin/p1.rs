@@ -133,8 +133,8 @@ fn delete_bills(hashmap: &mut HashMap<u32, Bill>) {
     if hashmap.len() > 0 {
         let mut delete_option = continue_input("delete item");
         let mut current_total_elements = hashmap.len();
-        println!("{} elements remaining", current_total_elements);
         print_hashmap(hashmap);
+        println!("{} elements remaining", current_total_elements);
         let mut possible_ids: Vec<u32> = Vec::new();
         for key in hashmap.keys() {
             possible_ids.push(*key);
@@ -145,15 +145,18 @@ fn delete_bills(hashmap: &mut HashMap<u32, Bill>) {
                 for key in hashmap.keys() {
                     if key == &delete_id {
                         hashmap.remove(&delete_id);
+                        print_hashmap(hashmap);
                         break 'outer;
                     }
                 }
                 println!("id not valid.please input ids only from the bills list.");
             }
-            println!("updated bills: {:?}", print_hashmap(hashmap));
             current_total_elements = hashmap.len();
             if current_total_elements > 0 {
                 delete_option = continue_input("delete item");
+                if !delete_option {
+                    print_hashmap(hashmap);
+                }
             } else {
                 println!("bill list empty!");
                 return ();
