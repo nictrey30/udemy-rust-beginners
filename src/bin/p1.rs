@@ -145,9 +145,6 @@ fn delete_bills(hashmap: &mut HashMap<u32, Bill>) {
         current_total_elements = hashmap.len();
         if current_total_elements > 0 {
             delete_option = continue_input("delete item");
-            if !delete_option {
-                print_hashmap(hashmap);
-            }
         } else {
             println!("bill list empty!");
             return ();
@@ -182,9 +179,16 @@ fn edit_bills(hashmap: &HashMap<u32, Bill>) -> HashMap<u32, Bill> {
                         found = true;
                         edited_hashmap = edit_bill(edit_id, &edited_hashmap);
                         print_hashmap(&edited_hashmap);
-                        match continue_input("edit item") {
-                            true => continue,
-                            false => return edited_hashmap,
+                        let revert_choice = continue_input("are you sure?");
+                        match revert_choice {
+                            true => match continue_input("edit another item") {
+                                true => continue,
+                                false => return edited_hashmap,
+                            },
+                            false => match continue_input("edit another item") {
+                                true => continue,
+                                false => return clone_hashmap(hashmap),
+                            },
                         }
                     }
                 }
