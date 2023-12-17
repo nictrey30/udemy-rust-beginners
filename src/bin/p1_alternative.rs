@@ -21,13 +21,33 @@ impl Bill {
 
     fn get_name() -> String {
         loop {
-            match get_input("name") {
+            println!("name: ");
+            match get_input() {
                 Ok(string) => match string.trim() {
                     "" => {
                         println!("empty string not allowed.");
                         continue;
                     }
                     _ => return string,
+                },
+                Err(e) => {
+                    println!("error: {:?}", e);
+                    continue;
+                }
+            }
+        }
+    }
+
+    fn get_amount() -> f64 {
+        loop {
+            println!("amount: ");
+            match get_input() {
+                Ok(string) => match string.parse() {
+                    Ok(num) => return num,
+                    Err(e) => {
+                        println!("error: {:?}", e);
+                        continue;
+                    }
                 },
                 Err(e) => {
                     println!("error: {:?}", e);
@@ -50,18 +70,55 @@ impl Bills {
     fn add(&mut self, bill: Bill) {
         self.inner.push(bill);
     }
-    fn print_bill(&self) {
+    fn print_bills(&self) {
         for bill in &self.inner {
             println!("{:?}", bill);
         }
     }
 }
 
-fn get_input(str: &str) -> io::Result<String> {
+fn get_input() -> io::Result<String> {
     let mut buffer = String::new();
-    println!("get {}", str);
     io::stdin().read_line(&mut buffer)?;
     Ok(buffer.trim().to_owned())
 }
 
-fn main() {}
+fn continue_input(str: &str) -> bool {
+    let mut answer = String::new();
+    loop {
+        answer.clear();
+        println!("{} y/n", str);
+        let answer = match get_input() {
+            Ok(string) => string,
+            Err(e) => {
+                println!("error getting y/n: {:?}", e);
+                continue;
+            }
+        };
+        match answer.trim() {
+            "y" => return true,
+            "n" => return false,
+            _ => {
+                println!("only y/n");
+                continue;
+            }
+        };
+    }
+}
+
+fn main() {
+    let mut bills: Bills;
+    bills = Bills::new();
+    loop {
+        match continue_input("add bill") {
+            true => {
+                bills.add(Bill::new(Bill::get_name(), Bill::get_amount()));
+            }
+            false => {
+                println!("finished");
+                bills.print_bills();
+                break;
+            }
+        }
+    }
+}
