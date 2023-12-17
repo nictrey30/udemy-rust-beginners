@@ -50,7 +50,7 @@ impl Bill {
                     }
                 },
                 Err(e) => {
-                    println!("error: {:?}", e);
+                    println!("error: {:?}", e.kind());
                     continue;
                 }
             }
@@ -70,10 +70,8 @@ impl Bills {
     fn add(&mut self, bill: Bill) {
         self.inner.push(bill);
     }
-    fn print_bills(&self) {
-        for bill in &self.inner {
-            println!("{:?}", bill);
-        }
+    fn get_all(&self) -> &Vec<Bill> {
+        &self.inner
     }
 }
 
@@ -84,23 +82,17 @@ fn get_input() -> io::Result<String> {
 }
 
 fn continue_input(str: &str) -> bool {
-    let mut answer = String::new();
+    println!("{}: press n to quit", str);
+    let answer = get_input();
     loop {
-        answer.clear();
-        println!("{} y/n", str);
-        let answer = match get_input() {
-            Ok(string) => string,
+        match answer {
+            Ok(string) => match string.trim() {
+                "n" => return false,
+                _ => return true,
+            },
             Err(e) => {
-                println!("error getting y/n: {:?}", e);
-                continue;
-            }
-        };
-        match answer.trim() {
-            "y" => return true,
-            "n" => return false,
-            _ => {
-                println!("only y/n");
-                continue;
+                println!("error: {:?}", e);
+                return true;
             }
         };
     }
@@ -109,16 +101,11 @@ fn continue_input(str: &str) -> bool {
 fn main() {
     let mut bills: Bills;
     bills = Bills::new();
-    loop {
-        match continue_input("add bill") {
-            true => {
-                bills.add(Bill::new(Bill::get_name(), Bill::get_amount()));
-            }
-            false => {
-                println!("finished");
-                bills.print_bills();
-                break;
-            }
-        }
+    while continue_input("bills") {
+        bills.add(Bill::new(Bill::get_name(), Bill::get_amount()));
+    }
+    println!("finished");
+    for bill in bills.get_all() {
+        println!("{:?}", bill);
     }
 }
