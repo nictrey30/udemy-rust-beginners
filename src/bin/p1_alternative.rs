@@ -74,24 +74,22 @@ fn get_input() -> String {
     buffer.trim().to_owned()
 }
 
-fn continue_input() -> bool {
-    println!("press n to quit");
-    match get_input().trim() {
-        "n" => return false,
-        _ => return true,
-    };
+fn main_menu() {
+    fn show() {
+        println!("");
+        println!("== Manage Bills ==");
+        println!("1.Add bill");
+        println!("2.View bill");
+        println!("3.Quit");
+        println!("");
+        println!("Enter selection: ");
+    }
+
+    let mut bills = Bills::new();
+
+    loop {
+        show();
+    }
 }
 
-fn main() {
-    let mut bills: Bills;
-    bills = Bills::new();
-    let mut cont: bool = continue_input();
-    while cont {
-        bills.add(Bill::new(Bill::get_name(), Bill::get_amount()));
-        cont = continue_input();
-    }
-    println!("finished");
-    for bill in bills.get_all() {
-        println!("{:?}", bill);
-    }
-}
+fn main() {}
