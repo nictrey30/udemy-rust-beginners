@@ -20,37 +20,28 @@ impl Bill {
     }
 
     fn get_name() -> String {
+        println!("name: ");
         loop {
-            println!("name: ");
-            match get_input() {
-                Ok(string) => match string.trim() {
-                    "" => {
-                        println!("empty string not allowed.");
-                        continue;
-                    }
-                    _ => return string,
-                },
-                Err(e) => {
-                    println!("error: {:?}", e);
+            let name = get_input();
+            match name.trim() {
+                "" => {
+                    println!("empty string not allowed.");
                     continue;
                 }
+
+                _ => return name,
             }
         }
     }
 
     fn get_amount() -> f64 {
+        println!("amount: ");
         loop {
-            println!("amount: ");
-            match get_input() {
-                Ok(string) => match string.parse() {
-                    Ok(num) => return num,
-                    Err(e) => {
-                        println!("error: {:?}", e);
-                        continue;
-                    }
-                },
+            let amount = get_input();
+            match amount.parse() {
+                Ok(num) => return num,
                 Err(e) => {
-                    println!("error: {:?}", e.kind());
+                    println!("error: {:?}", e);
                     continue;
                 }
             }
@@ -75,34 +66,29 @@ impl Bills {
     }
 }
 
-fn get_input() -> io::Result<String> {
+fn get_input() -> String {
     let mut buffer = String::new();
-    io::stdin().read_line(&mut buffer)?;
-    Ok(buffer.trim().to_owned())
+    while io::stdin().read_line(&mut buffer).is_err() {
+        println!("please enter your data again");
+    }
+    buffer.trim().to_owned()
 }
 
-fn continue_input(str: &str) -> bool {
-    println!("{}: press n to quit", str);
-    let answer = get_input();
-    loop {
-        match answer {
-            Ok(string) => match string.trim() {
-                "n" => return false,
-                _ => return true,
-            },
-            Err(e) => {
-                println!("error: {:?}", e);
-                return true;
-            }
-        };
-    }
+fn continue_input() -> bool {
+    println!("press n to quit");
+    match get_input().trim() {
+        "n" => return false,
+        _ => return true,
+    };
 }
 
 fn main() {
     let mut bills: Bills;
     bills = Bills::new();
-    while continue_input("bills") {
+    let mut cont: bool = continue_input();
+    while cont {
         bills.add(Bill::new(Bill::get_name(), Bill::get_amount()));
+        cont = continue_input();
     }
     println!("finished");
     for bill in bills.get_all() {
