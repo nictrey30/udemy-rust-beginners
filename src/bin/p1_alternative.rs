@@ -73,7 +73,7 @@ fn add_bill_menu(bills: &mut Bills) {
     println!("bill added");
 }
 
-fn view_bill_menu(bills: &Bills) {
+fn view_bills_menu(bills: &Bills) {
     for bill in bills.get_all() {
         println!("{:?}", bill);
     }
@@ -96,7 +96,7 @@ fn main_menu() {
         let input = get_input();
         match input.as_str() {
             "1" => add_bill_menu(&mut bills),
-            "2" => view_bill_menu(&bills),
+            "2" => view_bills_menu(&bills),
             "3" => break,
             _ => {
                 println!("please choose 1/2/3 only");
