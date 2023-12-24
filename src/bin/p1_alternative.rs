@@ -84,7 +84,7 @@ fn main_menu() {
         println!("");
         println!("== Manage Bills ==");
         println!("1.Add bill");
-        println!("2.View bill");
+        println!("2.View bills");
         println!("3.Quit");
         println!("Enter selection: ");
     }
