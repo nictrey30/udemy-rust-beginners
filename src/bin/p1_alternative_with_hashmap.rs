@@ -52,18 +52,29 @@ impl Bills {
             inner: HashMap::new(),
         }
     }
+
     fn add(&mut self, bill: Bill) {
         // the reasone I'm cloning the bill name because insert will move the bill name, but the bill needs to have an owned name, but we don't want to move it into the key part of the hashmap
         self.inner.insert(bill.name.clone(), bill);
     }
+
     fn get_all(&self) -> Vec<Bill> {
         let mut bills: Vec<Bill> = vec![];
-        // when iterating over values of a hashmap, bill is always borrowed, but i need to push an owned bill into the vector
+        // when iterating over values of a hashmap, bill is always borrowed, but i need to push an owned bill into the vector, therefore we need to derive clone for Bills struct
         for bill in self.inner.values() {
             bills.push(bill.clone());
         }
         bills
     }
+
+    // removing a bill based on the name of the bill
+    // if we cannot the bill based on the name return false, indicating that the removing failed
+    fn remove(&mut self, name: &str) -> bool {
+        // .remove(&key) will return an Option. If we want to disregard the return value from Some we use is_some()
+        self.inner.remove(name).is_some()
+    }
+
+    fn update(&mut self, name: &str) -> bool {}
 }
 
 fn get_input() -> String {
@@ -79,6 +90,34 @@ fn add_bill_menu(bills: &mut Bills) {
     let bill: Bill = Bill::new(Bill::get_name(), Bill::get_amount());
     bills.add(bill);
     println!("bill added");
+}
+
+fn remove_bill_menu(bills: &mut Bills) {
+    // viwew the bills
+    view_bill_menu(bills);
+    println!("==> remove key by name: ");
+    let name = get_input();
+    match bills.remove(&name) {
+        true => {
+            println!("bills updated:");
+            view_bill_menu(bills);
+        }
+        false => println!("cannot find {name}"),
+    }
+}
+
+fn update_bill_menu(bills: &mut Bills) {
+    // viwew the bills
+    view_bill_menu(bills);
+    println!("==> update key by name: ");
+    let name = get_input();
+    match bills.remove(&name) {
+        true => {
+            println!("bills updated:");
+            view_bill_menu(bills);
+        }
+        false => println!("cannot find {name}"),
+    }
 }
 
 fn view_bill_menu(bills: &Bills) {
@@ -107,7 +146,8 @@ fn main_menu() {
         match input.as_str() {
             "1" => add_bill_menu(&mut bills),
             "2" => view_bill_menu(&bills),
-            "3" => break,
+            "3" => remove_bill_menu(&mut bills),
+            "5" => break,
             _ => {
                 println!("please choose 1/2/3/4/5 only");
                 continue;
