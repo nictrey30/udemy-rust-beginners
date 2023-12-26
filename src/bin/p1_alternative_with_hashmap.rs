@@ -6,9 +6,9 @@
 // * L3: I want to go back if I change my mind.
 #![allow(dead_code, unused_variables, unused_imports)]
 
-use std::io;
+use std::{collections::HashMap, io};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Bill {
     name: String,
     amount: f64,
@@ -42,20 +42,27 @@ impl Bill {
     }
 }
 
-// the reason the vec is in struct is if I decide to change the inner value from a vector to something elese, I will only need to change it in the structure
 struct Bills {
-    inner: Vec<Bill>,
+    inner: HashMap<String, Bill>,
 }
 
 impl Bills {
     fn new() -> Self {
-        Self { inner: vec![] }
+        Self {
+            inner: HashMap::new(),
+        }
     }
     fn add(&mut self, bill: Bill) {
-        self.inner.push(bill);
+        // the reasone I'm cloning the bill name because insert will move the bill name, but the bill needs to have an owned name, but we don't want to move it into the key part of the hashmap
+        self.inner.insert(bill.name.clone(), bill);
     }
-    fn get_all(&self) -> &Vec<Bill> {
-        &self.inner
+    fn get_all(&self) -> Vec<Bill> {
+        let mut bills: Vec<Bill> = vec![];
+        // when iterating over values of a hashmap, bill is always borrowed, but i need to push an owned bill into the vector
+        for bill in self.inner.values() {
+            bills.push(bill.clone());
+        }
+        bills
     }
 }
 
@@ -69,7 +76,8 @@ fn get_input() -> String {
 
 // mutable reference to the structure Bills
 fn add_bill_menu(bills: &mut Bills) {
-    bills.add(Bill::new(Bill::get_name(), Bill::get_amount()));
+    let bill: Bill = Bill::new(Bill::get_name(), Bill::get_amount());
+    bills.add(bill);
     println!("bill added");
 }
 
@@ -85,7 +93,9 @@ fn main_menu() {
         println!("== Manage Bills ==");
         println!("1.Add bill");
         println!("2.View bill");
-        println!("3.Quit");
+        println!("3.Delete bill");
+        println!("4.Edit bill");
+        println!("5.Quit");
         println!("Enter selection: ");
     }
 
@@ -99,7 +109,7 @@ fn main_menu() {
             "2" => view_bill_menu(&bills),
             "3" => break,
             _ => {
-                println!("please choose 1/2/3 only");
+                println!("please choose 1/2/3/4/5 only");
                 continue;
             }
         }
