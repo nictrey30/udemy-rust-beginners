@@ -23,20 +23,32 @@ impl Bill {
         println!("name: ");
         loop {
             let name = get_input();
-            match name.trim() {
-                "" => println!("empty string not allowed."),
-                _ => return name,
+            match name {
+                Some(inner_name) => return inner_name,
+                None => {
+                    println!("empty names not allowed");
+                    continue;
+                }
             }
         }
     }
 
     fn get_amount() -> f64 {
-        println!("amount: ");
         loop {
+            println!("amount: ");
             let amount = get_input();
-            match amount.parse() {
-                Ok(num) => return num,
-                Err(e) => println!("Please enter a number"),
+            match amount {
+                Some(num) => match num.parse() {
+                    Ok(inner_num) => return inner_num,
+                    Err(_) => {
+                        println!("only numbers allowed");
+                        continue;
+                    }
+                },
+                None => {
+                    println!("empty data not allowed");
+                    continue;
+                }
             }
         }
     }
@@ -78,7 +90,8 @@ impl Bills {
         // get_mut() Returns a mutable reference to the value corresponding to the key. It returns an Option
         match self.inner.get_mut(name) {
             Some(bill) => {
-                bill.amount = Bill::get_amount();
+                let amount = Bill::get_amount();
+                bill.amount = amount;
                 true
             }
             None => false,
@@ -86,18 +99,28 @@ impl Bills {
     }
 }
 
-fn get_input() -> String {
+fn get_input() -> Option<String> {
     let mut buffer = String::new();
     while io::stdin().read_line(&mut buffer).is_err() {
         println!("please enter your data again");
     }
-    buffer.trim().to_owned()
+    let input = buffer.trim().to_owned();
+    if &input == "" {
+        None
+    } else {
+        Some(input)
+    }
 }
 
 // mutable reference to the structure Bills
 fn add_bill_menu(bills: &mut Bills) {
-    let bill: Bill = Bill::new(Bill::get_name(), Bill::get_amount());
-    bills.add(bill);
+    println!("bill name: ");
+    let name = match get_input() {
+        Some(input) => input,
+        None => return,
+    };
+    let amount = Bill::get_amount();
+    bills.add(Bill::new(name, amount));
     println!("bill added");
 }
 
@@ -105,7 +128,10 @@ fn remove_bill_menu(bills: &mut Bills) {
     // viwew the bills
     view_bill_menu(bills);
     println!("==> remove key by name: ");
-    let name = get_input();
+    let name = match get_input() {
+        Some(input) => input,
+        None => return,
+    };
     match bills.remove(&name) {
         true => {
             println!("bills updated:");
@@ -120,7 +146,10 @@ fn update_bill_menu(bills: &mut Bills) {
     // viwew the bills
     view_bill_menu(bills);
     println!("==> update key by name: ");
-    let name = get_input();
+    let name = match get_input() {
+        Some(input) => input,
+        None => return,
+    };
     if bills.update(&name) {
         println!("updated");
         view_bill_menu(bills);
@@ -151,7 +180,10 @@ fn main_menu() {
 
     loop {
         show();
-        let input = get_input();
+        let input = match get_input() {
+            Some(inner) => inner,
+            None => return,
+        };
         match input.as_str() {
             "1" => add_bill_menu(&mut bills),
             "2" => view_bill_menu(&bills),
