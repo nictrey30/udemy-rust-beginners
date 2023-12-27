@@ -74,7 +74,16 @@ impl Bills {
         self.inner.remove(name).is_some()
     }
 
-    fn update(&mut self, name: &str) -> bool {}
+    fn update(&mut self, name: &str) -> bool {
+        // get_mut() Returns a mutable reference to the value corresponding to the key. It returns an Option
+        match self.inner.get_mut(name) {
+            Some(bill) => {
+                bill.amount = Bill::get_amount();
+                true
+            }
+            None => false,
+        }
+    }
 }
 
 fn get_input() -> String {
@@ -102,21 +111,21 @@ fn remove_bill_menu(bills: &mut Bills) {
             println!("bills updated:");
             view_bill_menu(bills);
         }
-        false => println!("cannot find {name}"),
+        false => println!("bill \"{name}\" not found"),
     }
 }
 
+// update the amount of a bill
 fn update_bill_menu(bills: &mut Bills) {
     // viwew the bills
     view_bill_menu(bills);
     println!("==> update key by name: ");
     let name = get_input();
-    match bills.remove(&name) {
-        true => {
-            println!("bills updated:");
-            view_bill_menu(bills);
-        }
-        false => println!("cannot find {name}"),
+    if bills.update(&name) {
+        println!("updated");
+        view_bill_menu(bills);
+    } else {
+        println!("bill \"{name}\" not found");
     }
 }
 
@@ -147,6 +156,7 @@ fn main_menu() {
             "1" => add_bill_menu(&mut bills),
             "2" => view_bill_menu(&bills),
             "3" => remove_bill_menu(&mut bills),
+            "4" => update_bill_menu(&mut bills),
             "5" => break,
             _ => {
                 println!("please choose 1/2/3/4/5 only");
