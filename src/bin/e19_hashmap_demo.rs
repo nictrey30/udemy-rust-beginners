@@ -1,4 +1,5 @@
 // hashmaps demo
+#![allow(dead_code, unused_variables, unused_imports)]
 use std::{collections::HashMap, io};
 
 #[derive(Debug)]
