@@ -20,19 +20,24 @@ fn clamp(n: i32, lower: i32, upper: i32) -> i32 {
 }
 
 /// Divides a and b.
-fn div(a: i32, b: i32) -> Option<i32> {
-    Some(a / b)
+fn div(a: i32, b: i32) -> Option<f64> {
+    if b == 0 {
+        return None;
+    }
+    Some((a as f64 / b as f64) as f64)
 }
 
 /// Takes two strings and places them immediately one after another.
 fn concat(first: &str, second: &str) -> String {
-    format!("{} {}", first, second)
+    format!("{}{}", first.trim(), second.trim())
 }
 
 fn main() {}
 
 #[cfg(test)]
 mod test {
+    use std::result;
+
     use crate::*;
 
     #[test]
@@ -56,10 +61,47 @@ mod test {
             "n=101 should be clamped into higher limit=100"
         );
     }
-
     #[test]
     fn check_clamp_middle() {
         let result_middle = clamp(5, 2, 10);
         assert_eq!(result_middle, 5, "n=5 should be returned");
+    }
+
+    #[test]
+    fn check_divide() {
+        let result = div(5, 2);
+        println!("div result: {:?}", result);
+        assert_eq!(result, Some(2.5), "divide failed");
+    }
+    #[test]
+    fn check_divide_by_zero() {
+        let result = div(5, 0);
+        println!("div result: {:?}", result);
+        assert_eq!(result, None, "should return None, cannot divide by 0");
+    }
+    #[test]
+    fn check_divide_zero() {
+        let result = div(0, 5);
+        println!("div result: {:?}", result);
+        assert_eq!(result, Some(0.0), "should return 0");
+    }
+
+    #[test]
+    fn check_concat() {
+        let result = concat("ana", "mere");
+        assert_eq!(
+            result,
+            "anamere".to_owned(),
+            "should concat 2 string without space between"
+        );
+    }
+    #[test]
+    fn check_concat_with_spaces() {
+        let result = concat("ana ", "mere");
+        assert_eq!(
+            result,
+            "anamere".to_owned(),
+            "should concat 2 string without space between"
+        );
     }
 }
