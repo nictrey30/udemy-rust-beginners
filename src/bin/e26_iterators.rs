@@ -1,14 +1,28 @@
+#![allow(dead_code, unused_variables, unused_imports)]
 // Topic: Iterator
-// Requirements:
-// * Triple the value of each item in a vector.
-// * Filter the data to only include values > 10.
-// * Print out each element using a for loop.
 
 use std::io;
 
-fn filtered_data(my_num: i32, vector: &Vec<i32>) -> Option<Vec<i32>> {
-    let filtered_vec: Vec<&i32> = vector.iter().filter(|num| num == &&my_num).collect();
-    let result: Vec<i32> = filtered_vec.iter().map(|num| **num).collect();
+// * Triple the value of each item in a vector.
+fn multiply_elements(my_num: i32, vector: &Vec<i32>) -> Option<Vec<i32>> {
+    if vector.is_empty() {
+        return None;
+    }
+    let result = vector.iter().map(|num| num * my_num).collect();
+    Some(result)
+}
+
+// * Filter the data to only include values > 10.
+fn filter_elements(my_num: i32, vector: &Vec<i32>) -> Option<Vec<i32>> {
+    if vector.is_empty() {
+        return None;
+    }
+    let result: Vec<i32> = vector
+        .clone()
+        .iter()
+        .map(|num| *num)
+        .filter(|num| num > &my_num)
+        .collect();
     if result.is_empty() {
         return None;
     }
@@ -33,11 +47,47 @@ fn get_num() -> i32 {
     }
 }
 
-fn main() {
-    let data = vec![1, 2, 3, 4, 3, 4, 5, 3, -19, 3, 4];
-    let filtered_data: Vec<i32> = filtered_data(get_num(), &data).unwrap_or_else(|| vec![]);
-    println!(
-        "initial vec: {:?} --> filtered_vec: {:?}",
-        data, filtered_data
-    );
+fn main() {}
+
+#[cfg(test)]
+mod test {
+    use crate::*;
+
+    #[test]
+    fn filter_elements_found() {
+        let data: Vec<i32> = vec![1, 2, 3, 3];
+        let result = filter_elements(2, &data);
+        let expectation = vec![3, 3];
+        assert_eq!(
+            result.unwrap_or_else(|| vec![]),
+            expectation,
+            "should be [3, 3]"
+        );
+    }
+    #[test]
+    fn filter_elements_not_found() {
+        let data: Vec<i32> = vec![1, 2, 3, 3];
+        let result = filter_elements(7, &data);
+        let expectation = vec![];
+        assert_eq!(
+            result.unwrap_or_else(|| vec![]),
+            expectation,
+            "should be []"
+        );
+    }
+
+    #[test]
+    fn multiply_elements_test() {
+        let data: Vec<i32> = vec![1, 2, 3, 3];
+        let result = multiply_elements(3, &data).unwrap_or_else(|| vec![]);
+        let expect = vec![3, 6, 9, 9];
+        assert_eq!(result, expect, "should be vec![3, 6, 9, 9]");
+    }
+    #[test]
+    fn multiply_elements_test_none() {
+        let data: Vec<i32> = vec![];
+        let result = multiply_elements(3, &data);
+        let expect = None;
+        assert_eq!(result, expect, "should be None");
+    }
 }
