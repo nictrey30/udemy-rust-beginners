@@ -59,7 +59,7 @@ mod test {
     }
 
     #[test]
-    fn calc_triangle_square() {
+    fn calc_perimeter_traingle() {
         let traingle = Triangle {
             laterals: [4, 8, 6],
         };
