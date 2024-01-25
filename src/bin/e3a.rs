@@ -12,18 +12,18 @@
 use std::io;
 
 fn read_user_bool_val() -> bool {
-    let mut input = String::new();
+    let mut buffer = String::new();
     loop {
         println!("please input a true/false bool value: ");
-        io::stdin()
-            .read_line(&mut input)
-            .expect("failed to read line.");
-        let input: bool = match input.to_lowercase().trim() {
+        while io::stdin().read_line(&mut buffer).is_err() {
+            println!("please enter your data again");
+        }
+        let input: bool = match buffer.to_lowercase().trim() {
             "true" => true,
             "false" => false,
             _ => {
                 println!("only true/false allowed!");
-                input.clear();
+                buffer.clear();
                 continue;
             }
         };
@@ -34,9 +34,9 @@ fn read_user_bool_val() -> bool {
 fn display_msg(user_bool_input: bool) {
     if user_bool_input == true {
         println!("hello");
-    } else {
-        println!("goodbye");
+        return ();
     }
+    println!("goodbye");
 }
 
 fn main() {

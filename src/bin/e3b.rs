@@ -13,21 +13,20 @@ use std::cmp::Ordering;
 use std::io;
 
 fn get_integer_value() -> i32 {
-    let mut value = String::new();
-    println!("input an integer value: ");
+    let mut buffer = String::new();
+    println!("enter an integer: ");
     loop {
-        io::stdin()
-            .read_line(&mut value)
-            .expect("failed to read line.");
-        let value: i32 = match value.trim().parse() {
-            Ok(num) => num,
+        while io::stdin().read_line(&mut buffer).is_err() {
+            println!("please enter your data again");
+        }
+        match buffer.trim().parse() {
+            Ok(num) => return num,
             Err(_) => {
-                println!("only integers allowed");
-                value.clear();
+                buffer.clear();
+                println!("please enter only integers");
                 continue;
             }
-        };
-        return value;
+        }
     }
 }
 
