@@ -27,38 +27,36 @@ fn divide(a: i32, mut b: i32) -> f64 {
 }
 
 fn read_input_num() -> i32 {
-    let mut input = String::new();
+    let mut buffer = String::new();
     loop {
-        println!("please input an integer: ");
-        io::stdin()
-            .read_line(&mut input)
-            .expect("failed to read line.");
-        let input: i32 = match input.trim().parse() {
-            Ok(num) => num,
+        while io::stdin().read_line(&mut buffer).is_err() {
+            println!("please enter your data again");
+        }
+        match buffer.trim().parse() {
+            Ok(num) => return num,
             Err(_) => {
-                println!("only integers allowed!");
-                input.clear();
+                buffer.clear();
+                println!("please enter only integers");
                 continue;
             }
-        };
-        return input;
+        }
     }
 }
 
 fn choose_operation() -> Operations {
     let mut input = String::new();
+    println!("please input an operation(add/sub/mult/div): ");
     loop {
-        println!("please input an operation(add/substract/multiply/divide): ");
         io::stdin()
             .read_line(&mut input)
             .expect("failed to read line.");
         match input.to_lowercase().trim() {
             "add" => return Operations::Add,
-            "substract" => return Operations::Substract,
-            "multiply" => return Operations::Multiply,
-            "divide" => return Operations::Divide,
+            "sub" => return Operations::Substract,
+            "mult" => return Operations::Multiply,
+            "div" => return Operations::Divide,
             _ => {
-                println!("please input only valid operations!");
+                println!("please input only valid operation(add/sub/mult/div)");
                 input.clear();
                 continue;
             }
@@ -67,11 +65,11 @@ fn choose_operation() -> Operations {
 }
 
 fn main() {
-    let my_operation = choose_operation();
-    println!("choose numbers: ");
+    println!("enter 1st number: ");
     let a: i32 = read_input_num();
+    println!("enter 2nd number: ");
     let b: i32 = read_input_num();
-
+    let my_operation = choose_operation();
     let result: f64 = match my_operation {
         Operations::Add => add(a, b) as f64,
         Operations::Substract => substract(a, b) as f64,
@@ -79,5 +77,5 @@ fn main() {
         Operations::Divide => divide(a, b),
     };
 
-    println!("The result of {a} {:?} {b} is {result}", my_operation);
+    println!("The result of \"{a} {:?} {b}\": {result}", my_operation);
 }
