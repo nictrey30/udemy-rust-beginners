@@ -64,6 +64,16 @@ fn choose_operation() -> Operations {
     }
 }
 
+fn display_result(operation: Operations, result: f64) {
+    let word: String = match operation {
+        Operations::Add => "adding".to_owned(),
+        Operations::Substract => "substracting".to_owned(),
+        Operations::Multiply => "multiplying".to_owned(),
+        Operations::Divide => "dividing".to_owned(),
+    };
+    println!("The result of {:?} is {:?}", word, result);
+}
+
 fn main() {
     println!("enter 1st number: ");
     let a: i32 = read_input_num();
@@ -76,6 +86,5 @@ fn main() {
         Operations::Multiply => multiply(a, b) as f64,
         Operations::Divide => divide(a, b),
     };
-
-    println!("The result of: {a} {:?} {b} = {result}", my_operation);
+    display_result(my_operation, result);
 }
