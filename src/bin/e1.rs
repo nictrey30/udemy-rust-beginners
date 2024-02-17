@@ -1,7 +1,8 @@
 // Topic: Basic arithmetic
 
 use std::io;
-#[derive(Debug)]
+
+#[derive(Debug, PartialEq)]
 enum Operations {
     Add,
     Substract,
@@ -64,14 +65,14 @@ fn choose_operation() -> Operations {
     }
 }
 
-fn display_result(operation: Operations, result: f64) {
-    let word: String = match operation {
+fn display_result(operation: Operations, result: i32) {
+    let word = match operation {
         Operations::Add => "adding".to_owned(),
         Operations::Substract => "substracting".to_owned(),
         Operations::Multiply => "multiplying".to_owned(),
         Operations::Divide => "dividing".to_owned(),
     };
-    println!("The result of {:?} is {:?}", word, result);
+    println!("result of {:?} is: {:?}", word, result);
 }
 
 fn main() {
@@ -80,11 +81,15 @@ fn main() {
     println!("enter 2nd number: ");
     let b: i32 = read_input_num();
     let my_operation = choose_operation();
-    let result: f64 = match my_operation {
-        Operations::Add => add(a, b) as f64,
-        Operations::Substract => substract(a, b) as f64,
-        Operations::Multiply => multiply(a, b) as f64,
-        Operations::Divide => divide(a, b),
+    let division_result: f64;
+    let result: i32 = match my_operation {
+        Operations::Add => add(a, b),
+        Operations::Substract => substract(a, b),
+        Operations::Multiply => multiply(a, b),
+        Operations::Divide => {
+            division_result = divide(a, b);
+            division_result as i32
+        }
     };
     display_result(my_operation, result);
 }
