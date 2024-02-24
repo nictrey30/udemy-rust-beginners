@@ -45,13 +45,13 @@ fn num_of_flips() -> u32 {
                     println!("error: integer > 100");
                     input.clear();
                     continue;
-                } else if num == 0 {
+                }
+                if num == 0 {
                     println!("error: not 0");
                     input.clear();
                     continue;
-                } else {
-                    num
                 }
+                num
             }
             Err(_) => {
                 println!("only positive integers allowed");
