@@ -14,6 +14,7 @@ use std::io;
 
 fn get_integer_input() -> i32 {
     let mut buffer = String::new();
+    println!("enter an integer: ");
     loop {
         while io::stdin().read_line(&mut buffer).is_err() {
             println!("incorrect data");
@@ -29,16 +30,16 @@ fn get_integer_input() -> i32 {
     }
 }
 
-fn compare(num: i32) -> &'static str {
+fn compare(num: i32) -> String {
     match num {
-        1 => "one",
-        2 => "two",
-        3 => "three",
-        _ => "other",
+        1 => "one".to_owned(),
+        2 => "two".to_owned(),
+        3 => "three".to_owned(),
+        _ => "other".to_owned(),
     }
 }
 
 fn main() {
-    let result: &str = compare(get_integer_input());
+    let result: String = compare(get_integer_input());
     println!("{result}");
 }
