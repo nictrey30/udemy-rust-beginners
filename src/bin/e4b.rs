@@ -13,36 +13,28 @@
 use std::io;
 
 fn get_integer_input() -> i32 {
-    let mut input = String::new();
+    let mut buffer = String::new();
     loop {
-        println!("input an integer: ");
-        io::stdin()
-            .read_line(&mut input)
-            .expect("failed to read line!");
-        let input: i32 = match input.trim().parse() {
-            Ok(num) => num,
+        while io::stdin().read_line(&mut buffer).is_err() {
+            println!("incorrect data");
+        }
+        match buffer.trim().parse() {
+            Ok(num) => return num,
             Err(_) => {
-                println!("only integers allowed!");
-                input.clear();
+                println!("please enter only integers");
+                buffer.clear();
                 continue;
             }
-        };
-        return input;
+        }
     }
 }
 
 fn compare(num: i32) -> &'static str {
     match num {
-        1 => {
-            return "one";
-        }
-        2 => {
-            return "two";
-        }
-        3 => {
-            return "three";
-        }
-        _ => return "other",
+        1 => "one",
+        2 => "two",
+        3 => "three",
+        _ => "other",
     }
 }
 
