@@ -1,6 +1,3 @@
-// Topic: Looping using the loop statement
-//
-// Program requirements:
 use std::io;
 
 fn get_integer_value() -> u32 {
