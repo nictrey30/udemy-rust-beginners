@@ -15,22 +15,17 @@ fn get_integer_value() -> u32 {
     let mut value = String::new();
     println!("input an integer value between 1 and 10: ");
     loop {
-        io::stdin()
-            .read_line(&mut value)
-            .expect("failed to read line.");
+        while io::stdin().read_line(&mut value).is_err() {
+            println!("please enter your data again");
+        }
         let value: u32 = match value.trim().parse() {
             Ok(num) => {
-                if num == 0 {
-                    println!("0 not allowed");
+                if num == 0 || num > 10 {
+                    println!("numbers between 1 and 10 only");
                     value.clear();
                     continue;
-                } else if num > 10 {
-                    println!("no more than 10");
-                    value.clear();
-                    continue;
-                } else {
-                    num
                 }
+                num
             }
             Err(_) => {
                 println!("only u32 allowed");
