@@ -1,4 +1,3 @@
-
 // Topic: Organizing similar data using structs
 //
 // Requirements:
@@ -43,12 +42,10 @@ fn display_flavors() {
 
 fn validate_size(num: &i32) -> bool {
     match num.cmp(&0) {
-        Ordering::Less => {
-            return false;
-        }
+        Ordering::Less => false,
         Ordering::Equal => {
             println!("zero values not allowed");
-            return false;
+            false
         }
         Ordering::Greater => {
             for i in SIZES {
