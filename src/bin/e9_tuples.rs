@@ -1,9 +1,6 @@
 // Topic: Data management using tuples
-//
 // Requirements:
-// * Print whether the y-value of a cartesian coordinate is
-//   greater than 5, less than 5, or equal to 5
-//
+// * Print whether the y-value of a cartesian coordinate is greater than 5, less than 5, or equal to 5
 // Notes:
 // * Use a function that returns a tuple
 // * Destructure the return value into two variables
@@ -45,12 +42,12 @@ fn get_integer_value(str: &str) -> i32 {
                 if num < -100 {
                     println!("under -100 values not allowed");
                     continue;
-                } else if num > 100 {
+                }
+                if num > 100 {
                     println!("no more than 100");
                     continue;
-                } else {
-                    num
                 }
+                num
             }
             Err(_) => {
                 println!("only integers between -100 & 100 allowed");
