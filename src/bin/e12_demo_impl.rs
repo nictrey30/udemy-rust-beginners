@@ -19,20 +19,19 @@ impl Temperature {
 
 fn get_temp() -> f64 {
     let mut value = String::new();
+    println!("temp: ");
     loop {
-        println!("temp: ");
-        value.clear();
-        io::stdin()
-            .read_line(&mut value)
-            .expect("failed to read line.");
-        let value: f64 = match value.trim().parse() {
-            Ok(num) => num,
+        while io::stdin().read_line(&mut value).is_err() {
+            println!("data error");
+        }
+        match value.trim().parse() {
+            Ok(num) => return num,
             Err(_) => {
                 println!("only numbers allowed");
+                value.clear();
                 continue;
             }
         };
-        return value;
     }
 }
 
