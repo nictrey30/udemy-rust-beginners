@@ -49,7 +49,7 @@ struct Dimensions {
 }
 
 impl Dimensions {
-    fn return_dimensions() -> Self {
+    fn new() -> Self {
         Self {
             height: get_dimension("height"),
             length: get_dimension("length"),
@@ -116,6 +116,6 @@ fn get_dimension(dimension_type: &str) -> f64 {
 }
 
 fn main() {
-    let my_box = ShippingBox::new(Dimensions::return_dimensions(), BoxColors::new());
+    let my_box = ShippingBox::new(Dimensions::new(), BoxColors::new());
     my_box.print_box();
 }
