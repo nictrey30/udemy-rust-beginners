@@ -13,6 +13,7 @@ fn display_light(light: &Light) {
     }
 }
 
+// any function that owns data is required to delete the data once the function completes
 fn switch_light(light: Light) -> Light {
     if light == Light::Bright {
         Light::Dull
