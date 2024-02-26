@@ -19,7 +19,7 @@ enum BoxColors {
 }
 
 impl BoxColors {
-    fn get_color() -> Self {
+    fn new() -> Self {
         let mut buffer = String::new();
         println!("box color(grey, brown, white or yellow): ");
         loop {
@@ -66,7 +66,7 @@ struct ShippingBox {
 }
 
 impl ShippingBox {
-    fn create_box(dimensions: Dimensions, color: BoxColors) -> Self {
+    fn new(dimensions: Dimensions, color: BoxColors) -> Self {
         Self {
             dimensions,
             color,
@@ -116,6 +116,6 @@ fn get_dimension(dimension_type: &str) -> f64 {
 }
 
 fn main() {
-    let my_box = ShippingBox::create_box(Dimensions::return_dimensions(), BoxColors::get_color());
+    let my_box = ShippingBox::new(Dimensions::return_dimensions(), BoxColors::new());
     my_box.print_box();
 }
