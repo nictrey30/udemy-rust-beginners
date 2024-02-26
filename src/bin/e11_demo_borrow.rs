@@ -14,11 +14,11 @@ fn display_light(light: &Light) {
 }
 
 fn switch_light(light: Light) -> Light {
-    return if light == Light::Bright {
+    if light == Light::Bright {
         Light::Dull
     } else {
         Light::Bright
-    };
+    }
 }
 
 fn main() {
