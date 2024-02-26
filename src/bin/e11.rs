@@ -1,8 +1,7 @@
 // Topic: Ownership
-//
 // Requirements:
 // * Print out the quantity and id number of a grocery item
-//
+
 // Notes:
 // * Use a struct for the grocery item
 // * Use two i32 fields for the quantity and id number
