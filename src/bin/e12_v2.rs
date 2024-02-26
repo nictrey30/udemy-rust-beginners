@@ -1,9 +1,7 @@
 // Topic: Implementing functionality with the impl keyword
-//
 // Requirements:
 // * Print the characteristics of a shipping box
 // * Must include dimensions, weight, and color
-//
 // Notes:
 // * Use a struct to encapsulate the box characteristics
 // * Use an enum for the box color
@@ -25,10 +23,10 @@ enum Colors {
 impl Colors {
     fn color_string(&self) -> String {
         match &self {
-            Colors::Black => return "black".to_string(),
-            Colors::Grey => return "grey".to_string(),
-            Colors::Yellow => return "yellow".to_string(),
-            Colors::White => return "white".to_string(),
+            Colors::Black => "black".to_string(),
+            Colors::Grey => "grey".to_string(),
+            Colors::Yellow => "yellow".to_string(),
+            Colors::White => "white".to_string(),
         }
     }
 }
