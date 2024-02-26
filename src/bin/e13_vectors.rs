@@ -53,17 +53,17 @@ fn generate_vector(num: u32) -> Vec<u32> {
 
 fn int_el_to_string(num: u32) -> String {
     match num {
-        10 => return "ten".to_owned(),
-        20 => return "twenty".to_owned(),
-        30 => return "thirty".to_owned(),
-        40 => return "fourty".to_owned(),
-        50 => return "fifty".to_owned(),
-        60 => return "sixty".to_owned(),
-        70 => return "seventy".to_owned(),
-        80 => return "eighty".to_owned(),
-        90 => return "ninety".to_owned(),
-        100 => return "one hundred".to_owned(),
-        _ => return "error: input out of range".to_owned(),
+        10 => "ten".to_owned(),
+        20 => "twenty".to_owned(),
+        30 => "thirty".to_owned(),
+        40 => "fourty".to_owned(),
+        50 => "fifty".to_owned(),
+        60 => "sixty".to_owned(),
+        70 => "seventy".to_owned(),
+        80 => "eighty".to_owned(),
+        90 => "ninety".to_owned(),
+        100 => "one hundred".to_owned(),
+        _ => "error: input out of range".to_owned(),
     }
 }
 
