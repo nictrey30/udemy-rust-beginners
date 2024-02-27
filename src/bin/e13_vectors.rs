@@ -25,13 +25,13 @@ fn get_no_elements_value() -> u32 {
                     println!("0 not allowed");
                     value.clear();
                     continue;
-                } else if num > 10 {
+                }
+                if num > 10 {
                     println!("no more than 10");
                     value.clear();
                     continue;
-                } else {
-                    num
                 }
+                num
             }
             Err(_) => {
                 println!("only u32 allowed");
