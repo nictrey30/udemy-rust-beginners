@@ -1,6 +1,6 @@
 // automatically implement functionality for enum and struct by using a derive macro
 // derive functionality for printing out info
-// Clone, Copy -> when applied to a piece of data it informs the compiler that it is allowed to automatically make a copy when you are storing it into a struct or a function, what that means is ownership is no longer transferred when you move the Position enum into a struct or a function(a copy is made instead)
+// Clone, Copy -> when applied to a piece of data it informs the compiler that it is allowed to automatically make a copy when you are storing it into a struct or a function, what that means is ownership is no longer transfered when you move the Position enum into a struct or a function(a copy is made instead)
 #![allow(dead_code, unused_variables, unused_imports)]
 #[derive(Debug, Clone, Copy)]
 enum Position {
