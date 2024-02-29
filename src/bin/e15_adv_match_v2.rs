@@ -31,12 +31,12 @@ impl Ticket {
                     if num == 0.0 {
                         println!("0 not allowed");
                         continue;
-                    } else if num > 100.0 {
+                    }
+                    if num > 100.0 {
                         println!("ticket cannot be more expensive than 100");
                         continue;
-                    } else {
-                        num
                     }
+                    num
                 }
                 Err(_) => {
                     println!("only numbers between 1..100 allowed.");
@@ -99,12 +99,12 @@ fn get_num() -> u32 {
                 if num == 0 {
                     println!("0 not allowed");
                     continue;
-                } else if num > 5 {
+                }
+                if num > 5 {
                     println!("no more than 5");
                     continue;
-                } else {
-                    num
                 }
+                num
             }
             Err(_) => {
                 println!("only numbers between 1..5 allowed.");
