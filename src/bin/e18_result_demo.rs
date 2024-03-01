@@ -11,10 +11,10 @@ enum MenuChoice {
 
 fn get_choice(choice: &str) -> Result<MenuChoice, String> {
     match choice {
-        "mainmenu" => return Ok(MenuChoice::MainMenu),
-        "start" => return Ok(MenuChoice::Start),
-        "quit" => return Ok(MenuChoice::Quit),
-        _ => return Err("menu choice not found".to_owned()),
+        "mainmenu" => Ok(MenuChoice::MainMenu),
+        "start" => Ok(MenuChoice::Start),
+        "quit" => Ok(MenuChoice::Quit),
+        _ => Err("menu choice not found".to_owned()),
     }
 }
 

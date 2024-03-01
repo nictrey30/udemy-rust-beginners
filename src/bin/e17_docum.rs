@@ -1,31 +1,28 @@
 // Topic: Browsing standard library documentation
-//
+
 // Requirements:
 // * Print a string in lowercase and uppercase
-//
 // Notes:
-// * Utilize standard library functionality to
-//   transform the string to lowercase and uppercase
+// * Utilize standard library functionality to transform the string to lowercase and uppercase
 // * Use 'rustup doc' in a terminal to open the standard library docs
 // * Navigate to the API documentation section
-// * Search for functionality to transform a string (or str)
-//   to uppercase and lowercase
-//   * Try searching for: to_uppercase, to_lowercase
+// * Search for functionality to transform a string (or str) to uppercase and lowercase
+// * Try searching for: to_uppercase, to_lowercase
 use std::io;
 
 fn get_string() -> String {
-    let mut input = String::new();
+    let mut buffer = String::new();
+    println!("Please input a string: ");
     loop {
-        println!("Please input a string: ");
-        input.clear();
-        io::stdin()
-            .read_line(&mut input)
-            .expect("failed to read line.");
-        if input.trim().is_empty() {
+        while io::stdin().read_line(&mut buffer).is_err() {
+            println!("data error");
+        }
+        if buffer.trim().is_empty() {
             println!("empty values not allowed!");
+            buffer.clear();
             continue;
         }
-        return input;
+        return buffer;
     }
 }
 
