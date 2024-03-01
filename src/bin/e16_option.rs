@@ -19,25 +19,21 @@ struct Student {
 impl Student {
     fn create_student(name: &str, locker_no: Option<u32>) -> Self {
         match locker_no {
-            Some(num) => {
-                return Self {
-                    name: name.to_owned(),
-                    locker_no: Some(num),
-                }
-            }
-            None => {
-                return Self {
-                    name: name.to_owned(),
-                    locker_no: None,
-                }
-            }
+            Some(num) => Self {
+                name: name.to_owned(),
+                locker_no: Some(num),
+            },
+            None => Self {
+                name: name.to_owned(),
+                locker_no: None,
+            },
         }
     }
     fn locker_choice() -> Option<u32> {
         let choice = get_true_false();
         match choice {
-            true => return Some(get_locker_no()),
-            false => return None,
+            true => Some(get_locker_no()),
+            false => None,
         }
     }
 }
