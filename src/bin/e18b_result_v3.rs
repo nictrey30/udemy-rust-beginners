@@ -101,6 +101,7 @@ impl Employee {
         // checking first to see if employee is still active, using an early return if Status::Terminated
         match self.status {
             Status::Terminated => return Err("access denied".to_owned()),
+            // () means ignoring everything else, we just check for the access
             _ => (),
         }
 
@@ -115,7 +116,7 @@ impl Employee {
 
     fn print_access(&self) -> Result<(), String> {
         Employee::access(&self)?;
-        println!("Acces ok");
+        println!("Access ok");
         Ok(())
     }
 
