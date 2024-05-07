@@ -1,6 +1,6 @@
 use std::io;
 
-// the Result err type it is already provided, so we only  need to provide the successful type
+// the Result err type it is already provided for io::Result, so we only need to provide the successful type
 fn get_input() -> io::Result<String> {
     println!("input: ");
     let mut buffer = String::new();
